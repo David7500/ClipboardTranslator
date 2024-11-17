@@ -11,11 +11,7 @@ Clipboard Translator is a simple GUI application built using PyQt5 and Python th
 - **Esc Key Functionality**: Press the `Esc` key to hide the window.
 - **Drag to Move**: The window can be moved around by dragging it with the mouse.
 
-## Installation
-git clone
-source venv/bin/activate
-python3 -m venv venv
-
+## Requirements
 
 Before running the program, you need to install the following Python dependencies:
 
@@ -24,7 +20,88 @@ Before running the program, you need to install the following Python dependencie
 - `requests`: For making HTTP requests to fetch word definitions.
 - `deep_translator`: For translating text via Google Translate.
 
-You can install the required dependencies using `pip`:
+## Setting up the Virtual Environment
 
-```bash
-pip install PyQt5 pynput requests deep_translator
+To keep dependencies isolated and avoid conflicts with other Python projects, it's recommended to create a virtual environment for the project.
+
+1. **Create a virtual environment**:
+
+   Run the following command to create a virtual environment named `venv`:
+
+   ```bash
+   python3 -m venv venv
+   ```
+
+2. **Activate the virtual environment**:
+
+   - On **Linux/macOS**, use:
+
+     ```bash
+     source venv/bin/activate
+     ```
+
+   - On **Windows**, use:
+
+     ```bash
+     .\venv\Scripts\activate
+     ```
+
+3. **Install dependencies**:
+
+   Once the virtual environment is activated, install the required dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## How to Run
+
+1. Clone the repository or download the script.
+2. Ensure all required dependencies are installed (use `pip install -r requirements.txt` if the dependencies are listed in a `requirements.txt` file).
+3. Run the program:
+
+   ```bash
+   python clipboard_monitor.py
+   ```
+
+Once the application is running, the window will remain hidden by default. It will appear automatically when new text is copied to your clipboard.
+
+## Usage
+
+- **Clipboard Monitoring**: The program continuously monitors the clipboard for any changes. When a word is copied, it fetches its definition from a dictionary API and translates it into the selected language.
+
+- **Language Selection**: You can select the target language for translation from the toolbar menu. The available languages are:
+  - English (`en`)
+  - Slovenian (`sl`)
+  - French (`fr`)
+  - German (`de`)
+  - Spanish (`es`)
+
+  The selected language is saved in the system settings and will persist across sessions.
+
+- **Window Behavior**: You can drag the window by clicking and holding the left mouse button. The window will automatically resize based on the content, but you can manually resize it as well.
+
+- **Hide Window**: Press the `Esc` key to hide the window when it's visible.
+
+## Configuration
+
+The application allows you to configure the following settings:
+
+- **Window Width**: Set by `WINDOW_WIDTH`.
+- **Font Size**: Set by `FONT_SIZE`.
+- **Language**: Set by `TARGET_LANGUAGE`.
+
+You can modify these values in the code to fit your preferences.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- **PyQt5**: A set of Python bindings for Qt libraries for creating graphical user interfaces.
+- **pynput**: A library used to monitor and control input devices.
+- **requests**: A simple HTTP library for Python.
+- **deep_translator**: A Python library that uses Google Translate API for translation.
+- **Dictionary API**: The application fetches word definitions from the [Dictionary API](https://dictionaryapi.dev/).
+```
