@@ -61,7 +61,7 @@ To keep dependencies isolated and avoid conflicts with other Python projects, it
 3. Run the program:
 
    ```bash
-   python clipboard_monitor.py
+   python main.py
    ```
 
 Once the application is running, the window will remain hidden by default. It will appear automatically when new text is copied to your clipboard.
@@ -104,4 +104,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **requests**: A simple HTTP library for Python.
 - **deep_translator**: A Python library that uses Google Translate API for translation.
 - **Dictionary API**: The application fetches word definitions from the [Dictionary API](https://dictionaryapi.dev/).
-```
+
