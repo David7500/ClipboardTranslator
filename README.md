@@ -16,7 +16,6 @@ Clipboard Translator is a simple GUI application built using PyQt5 and Python th
 Before running the program, you need to install the following Python dependencies:
 
 - `PyQt5`: For the graphical user interface (GUI).
-- `pynput`: To listen for keypress events (e.g., Esc key to hide the window).
 - `requests`: For making HTTP requests to fetch word definitions.
 - `deep_translator`: For translating text via Google Translate.
 
@@ -51,17 +50,17 @@ To keep dependencies isolated and avoid conflicts with other Python projects, it
    Once the virtual environment is activated, install the required dependencies:
 
    ```bash
-   pip install -r requirements.txt
+   pip3 install -r requirements.txt
    ```
 
 ## How to Run
 
 1. Clone the repository or download the script.
-2. Ensure all required dependencies are installed (use `pip install -r requirements.txt` if the dependencies are listed in a `requirements.txt` file).
+2. Ensure all required dependencies are installed (use `pip install -r requirements.txt`).
 3. Run the program:
 
    ```bash
-   python main.py
+   python3 main.py
    ```
 
 Once the application is running, the window will remain hidden by default. It will appear automatically when new text is copied to your clipboard.
@@ -79,9 +78,9 @@ Once the application is running, the window will remain hidden by default. It wi
 
   The selected language is saved in the system settings and will persist across sessions.
 
-- **Window Behavior**: You can drag the window by clicking and holding the left mouse button. The window will automatically resize based on the content, but you can manually resize it as well.
+- **Window Behavior**: The window will automatically resize based on the content, but you can manually resize it as well.
 
-- **Hide Window**: Press the `Esc` key to hide the window when it's visible.
+- **Hide Window**: Press the `Esc` key to hide the window when it's in fokus.
 
 ## Configuration
 
@@ -90,6 +89,8 @@ The application allows you to configure the following settings:
 - **Window Width**: Set by `WINDOW_WIDTH`.
 - **Font Size**: Set by `FONT_SIZE`.
 - **Language**: Set by `TARGET_LANGUAGE`.
+- **Max window height**: Set by `MAX_HEIGHT`.
+- **Enable/disable dark mode**: Set by `DARK_MODE`.
 
 You can modify these values in the code to fit your preferences.
 
@@ -100,7 +101,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgements
 
 - **PyQt5**: A set of Python bindings for Qt libraries for creating graphical user interfaces.
-- **pynput**: A library used to monitor and control input devices.
 - **requests**: A simple HTTP library for Python.
 - **deep_translator**: A Python library that uses Google Translate API for translation.
 - **Dictionary API**: The application fetches word definitions from the [Dictionary API](https://dictionaryapi.dev/).

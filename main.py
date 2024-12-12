@@ -1,10 +1,10 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QSizePolicy, QScrollArea, QMainWindow, QToolBar, QAction
-from PyQt5.QtCore import QTimer, Qt, QPoint
-from pynput import keyboard
+from PyQt5.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QSizePolicy, QScrollArea, QMainWindow
+from PyQt5.QtCore import QTimer, Qt
 import time
 import requests
 from deep_translator import GoogleTranslator
+from PyQt5.QtGui import QKeyEvent
 
 def fetch_definition(word):
     """
@@ -64,8 +64,8 @@ class ClipboardMonitor(QMainWindow):
         super().__init__()
         self.setWindowTitle("Clipboard Monitor")
         self.setGeometry(63, 0, 300, 870)
-        # Remove the window frame
-        self.setWindowFlags(Qt.FramelessWindowHint)
+        # Set the window to always be on top
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
         # Create the main label to display text
         self.text_label = QLabel("", self)
@@ -91,11 +91,22 @@ class ClipboardMonitor(QMainWindow):
         self.clipboard_check_timer.timeout.connect(self.check_clipboard)
         self.clipboard_check_timer.start(100)  # Check clipboard every 100ms
 
-        self.hide()  # Start with the window hidden
-        self.start_key_listener()
+        # Apply dark mode if enabled
+        if DARK_MODE:
+            self.apply_dark_mode()
+        
+    def keyPressEvent(self, event: QKeyEvent):
+        """
+        Overrides the key press event to detect ESC key press.
+        """
+        if event.key() == Qt.Key_Escape:
+            self.hide()
 
-        # Initialize the mouse press position
-        self.drag_position = None
+    def apply_dark_mode(self):
+        """
+        Applies dark mode to the application.
+        """
+        self.setStyleSheet("background-color: #121212; color: #ffffff;")
 
     def adjust_window_size(self):
         """
@@ -110,7 +121,7 @@ class ClipboardMonitor(QMainWindow):
             self.setFixedHeight(content_height)
 
         # Refresh the window to reflect changes
-        self.hide()
+        self.update()
         self.show()
 
     def check_clipboard(self):
@@ -126,10 +137,10 @@ class ClipboardMonitor(QMainWindow):
                 # Fetch definition and translation
                 definition = fetch_definition(current_text)
                 translation = fetch_translation(definition, TARGET_LANGUAGE)
-                display_text = definition + "<p style='color: rgb(0, 0, 255);'>" + translation + "</p>"
+                display_text = definition + "<p style='color: #00ff00;'>" + translation + "</p>"
             else:
                 translation = fetch_translation(current_text, TARGET_LANGUAGE)
-                display_text = "<p style='color: rgb(0, 0, 255);'>" + translation + "</p>"
+                display_text = "<p style='color: #00ff00;'>" + translation + "</p>"
             print(current_text + "   " + str(time.time() - start_time))
 
             # Combine and display results
@@ -137,47 +148,14 @@ class ClipboardMonitor(QMainWindow):
             self.scroll_area.verticalScrollBar().setValue(0)
             self.adjust_window_size()
 
-    def start_key_listener(self):
-        """
-        Starts a key listener to monitor for specific key presses (e.g., Esc to hide the window).
-        """
-        def on_press(key):
-            try:
-                if key == keyboard.Key.esc:  # Detect the Esc key
-                    self.hide()
-            except Exception as e:
-                print(f"Error: {e}")
-
-        listener = keyboard.Listener(on_press=on_press)
-        listener.start()
-
-    def mousePressEvent(self, event):
-        """
-        Initiates the dragging of the window.
-        """
-        if event.button() == Qt.LeftButton:
-            self.drag_position = event.globalPos() - self.frameGeometry().topLeft()
-
-    def mouseMoveEvent(self, event):
-        """
-        Moves the window according to the mouse movement.
-        """
-        if self.drag_position:
-            self.move(event.globalPos() - self.drag_position)
-
-    def mouseReleaseEvent(self, event):
-        """
-        Resets the drag position.
-        """
-        self.drag_position = None
-
-
 if __name__ == "__main__":
     # Main application entry point
     app = QApplication(sys.argv)
-    MAX_HEIGHT = app.primaryScreen().availableGeometry().height()
+    MAX_HEIGHT = app.primaryScreen().availableGeometry().height() - 40
     WINDOW_WIDTH = 300
     TARGET_LANGUAGE = "sl"  # Language code for translation
     FONT_SIZE = 11
+    DARK_MODE = True  # Enable or disable dark mode
     monitor = ClipboardMonitor()
+    monitor.show()
     sys.exit(app.exec_())
